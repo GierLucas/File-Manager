@@ -10,8 +10,11 @@ def open_file():
     if openFile == "":
         messagebox.showinfo(title="File Select Canceled", message="You have canceled the file selection!")
     else:
-        os.startfile(openFile)
-        messagebox.showinfo(title="File Opened", message="You have succesfully opened the file!")
+        try:
+            os.startfile(openFile)
+            messagebox.showinfo(title="File Opened", message="You have succesfully opened the file!")
+        except OSError as openFileError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(openFileError) + "\n\nPlease try again!")
 
 def copy_file():
     messagebox.showinfo(title="Copy File", message="Select the file you want to copy!")
@@ -27,9 +30,9 @@ def copy_file():
             else:
                 shutil.copy2(copyFileSource, copyFileDestination)
                 messagebox.showinfo(title="File Copied", message="The file was succesfully copied!")
-        except IOError:
-            messagebox.showinfo(title="Same Folder Select", message="You have selected the same folder as the source file.\nPlease select another folder!")
-
+        except OSError as copyFileError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(copyFileError) + "\n\nPlease try again!")
+            
 def delete_file():
     messagebox.showinfo(title="Delete File", message="Select the file you want to delete!")
     fileNameDelete = filedialog.askopenfilename()
@@ -39,8 +42,8 @@ def delete_file():
         try:
             os.remove(fileNameDelete)
             messagebox.showinfo(title="File Deleted", message="The file was succesfully deleted!")
-        except OSError:
-            messagebox.showinfo(title="Delete File Error", message="An unknown error has occured, please try again!")
+        except OSError as deleteFileError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(deleteFileError) + "\n\nPlease try again!")
 
 def rename_file():
     messagebox.showinfo(title="Rename File", message="Select the file you want to rename!")
@@ -59,8 +62,8 @@ def rename_file():
                 newPath = os.path.join(namePath, renameFileInput + renameFileDestination)
                 os.rename(renameFileSource, newPath)
                 messagebox.showinfo(title="File Renamed", message="The file has succesfully been renamed!")
-        except IOError or OSError:
-            messagebox.showinfo(title="File Error", message="An unknown error has occured, please try again!")
+        except OSError as renameFileError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(renameFileError) + "\n\nPlease try again!")
 
 def move_file():
     messagebox.showinfo(title="Move File", message="Select the file you want to move!")
@@ -76,8 +79,8 @@ def move_file():
             else:
                 shutil.move(moveFileSource, moveFileDestination)
                 messagebox.showinfo(title="File Moved", message="The file has been succesfully moved!")
-        except IOError or OSError:
-            messagebox.showinfo(title="File Error", message="An unknown error has occured, please try again!")
+        except OSError as moveFileError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(moveFileError) + "\n\nPlease try again!")
 
 def delete_folder():
     messagebox.showinfo(title="Delete Folder", message="Select the folder you want to delete! \n\nWARNING: The folder must be empty!")
@@ -88,8 +91,8 @@ def delete_folder():
         try:
             os.rmdir(deleteFolderName)
             messagebox.showinfo(title="Folder Deleted", message="The folder was succesfully deleted!")
-        except IOError or OSError:
-            messagebox.showinfo(title="File Error", message="An unknown error has occured, please try again!")
+        except OSError as deleteFolderError:
+            messagebox.showerror(title="Folder Error", message="The following error has occured:\n\n"+ str(deleteFolderError) + "\n\nPlease try again!")
 
 def create_folder():
     messagebox.showinfo(title="Create Folder", message="Select the location where you want to create the folder!")
@@ -106,8 +109,8 @@ def create_folder():
                 createFolder = os.path.join(createFolderSource, createFolderName)
                 os.mkdir(createFolder)
                 messagebox.showinfo(title="Folder Created", message="The folder was succesfully created!")
-        except IOError or OSError:
-            messagebox.showinfo(title="File Error", message="An unknown error has occured, please try again!")
+        except OSError as createFolderError:
+            messagebox.showerror(title="Folder Error", message="The following error has occured:\n\n"+ str(createFolderError) + "\n\nPlease try again!")
 
 def listFiles_folder():
     messagebox.showinfo(title="List Files in Folder", message="Select the folder you want to list the files of!")
@@ -121,8 +124,8 @@ def listFiles_folder():
             messagebox.showinfo(title="Files Listed", message=listFilesFolder)
             messagebox.showinfo(title="Files Listed", message="The files from the selected folder were succesfully listed!")
             print(listFilesFolder)
-        except IOError or OSError:
-            messagebox.showinfo(title="File Error", message="An unknown error has occured, please try again!")
+        except OSError as listFilesError:
+            messagebox.showerror(title="File Error", message="The following error has occured:\n\n"+ str(listFilesError) + "\n\nPlease try again!")
 
 def gui_window():
     guiWindow = tkinter.Tk()
