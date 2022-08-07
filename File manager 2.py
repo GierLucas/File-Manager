@@ -4,6 +4,22 @@ import tkinter
 from tkinter import filedialog
 from tkinter import messagebox
 
+def entry_box():
+    entryBox = tkinter.Tk()
+
+    def rename_input():
+        global userInput
+        userInput = entryInput.get()
+        entryBox.destroy()
+
+    tkinter.Label(entryBox, text="Enter data here: ").pack()
+    entryInput = tkinter.Entry(entryBox)
+    entryInput.pack()
+    btn = tkinter.Button(entryBox, text="GO!", width=3, height=1, command=rename_input)
+    btn.pack()
+
+    entryBox.mainloop()
+
 def open_file():
     messagebox.showinfo(title="Open File", message="Select the file you want to open!")
     openFile = filedialog.askopenfilename()
@@ -55,7 +71,8 @@ def rename_file():
             namePath = os.path.dirname(renameFileSource)
             renameFileDestination = os.path.splitext(namePath)[1]
             messagebox.showinfo(title="Rename File", message="Enter the new file name!")
-            renameFileInput = input("Enter the new file name here: ")
+            entry_box()
+            renameFileInput = userInput
             if renameFileInput == "":
                 messagebox.showinfo(title="No input", message="You have not entered anything!")
             else:
@@ -142,23 +159,5 @@ def gui_window():
     tkinter.Button(guiWindow, text="Exit Program", width=25, height=1, bg="blue", fg="red", font=("", "20", "bold"), command=guiWindow.destroy).pack()
 
     guiWindow.mainloop()
-
-'''
-def entry_box():
-    entryBox = tkinter.Tk()
-
-    def callback():
-        renameFileInput = entryInput.get()
-        print(renameFileInput)
-        entryBox.destroy()
-
-    tkinter.Label(entryBox, text="Enter data here: ").pack()
-    entryInput = tkinter.Entry(entryBox)
-    entryInput.pack()
-    btn = tkinter.Button(entryBox, text="GO!", width=3, height=1, command=callback)
-    btn.pack()
-
-    entryBox.mainloop()
-'''
 
 gui_window()
