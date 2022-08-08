@@ -1,24 +1,9 @@
 import os
 import shutil
+import easygui
 import tkinter
 from tkinter import filedialog
 from tkinter import messagebox
-
-def entry_box():
-    entryBox = tkinter.Tk()
-
-    def rename_input():
-        global userInput
-        userInput = entryInput.get()
-        entryBox.destroy()
-
-    tkinter.Label(entryBox, text="Enter data here: ").pack()
-    entryInput = tkinter.Entry(entryBox)
-    entryInput.pack()
-    btn = tkinter.Button(entryBox, text="GO!", width=3, height=1, command=rename_input)
-    btn.pack()
-
-    entryBox.mainloop()
 
 def open_file():
     messagebox.showinfo(title="Open File", message="Select the file you want to open!")
@@ -71,10 +56,11 @@ def rename_file():
             namePath = os.path.dirname(renameFileSource)
             renameFileDestination = os.path.splitext(namePath)[1]
             messagebox.showinfo(title="Rename File", message="Enter the new file name!")
-            entry_box()
-            renameFileInput = userInput
+            renameFileInput = easygui.enterbox("Enter filename here:")
             if renameFileInput == "":
-                messagebox.showinfo(title="No input", message="You have not entered anything!")
+                messagebox.showwarning(title="No Input", message="You have not entered anything!")
+            elif renameFileInput == None:
+                messagebox.showinfo(title="File Renaming Canceled", message="You have canceled the file renaming!")
             else:
                 newPath = os.path.join(namePath, renameFileInput + renameFileDestination)
                 os.rename(renameFileSource, newPath)
@@ -119,9 +105,11 @@ def create_folder():
     else:
         try:
             messagebox.showinfo(title="Folder Name", message="Enter the name of the folder you want to create!")
-            createFolderName = input("Enter your folder name here: ")
+            createFolderName = easygui.enterbox("Enter your folder name here: ")
             if createFolderName == "":
-                messagebox.showinfo(title="No input", message="You have not entered anything!")
+                messagebox.showwarning(title="No input", message="You have not entered anything!")
+            elif createFolderName == None:
+                messagebox.showinfo(title="Folder Naming Canceled", message="You have canceled the folder naming!")
             else:
                 createFolder = os.path.join(createFolderSource, createFolderName)
                 os.mkdir(createFolder)
